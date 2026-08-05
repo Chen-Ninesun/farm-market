@@ -1,0 +1,10 @@
+# pnpm 11 配置（v11 移除 onlyBuiltDependencies，改用 allowBuilds；strictDepBuilds 默认开启）
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  prisma: true
+  sharp: true
+  bcrypt: true
+  esbuild: true
+  "@swc/core": true
+  unrs-resolver: true

@@ -1,0 +1,27 @@
+# ===== 敏感文件（严禁上传）=====
+backend/.env
+*.env.local
+.env.*.local
+
+# ===== 依赖与构建产物 =====
+node_modules/
+dist/
+.next/
+backend/public/uploads/
+
+# ===== 系统与编辑器 =====
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ===== 测试与临时 =====
+step*.png
+verify*.png
+query

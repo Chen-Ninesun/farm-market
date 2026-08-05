@@ -1,0 +1,16 @@
+# pnpm 10 配置（settings 从 package.json 迁移至本文件；corepack 按 packageManager 字段使用 pnpm@10.10.0）
+onlyBuiltDependencies:
+  - esbuild
+  - "@swc/core"
+  - sharp
+  - unrs-resolver
+  - sass
+  - less
+  - core-js
+  - es5-ext
+  - protobufjs
+  - vue-demi
+  - "@uni-helper/unocss-preset-uni"
+overrides:
+  unconfig: 7.3.2
+  bin-wrapper: npm:bin-wrapper-china

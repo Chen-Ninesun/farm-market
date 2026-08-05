@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户角色
+enum Role {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+// 产品分类
+enum ProductCategory {
+  VEGETABLE
+  FRUIT
+  GRAIN
+  MEAT
+  DAIRY
+  OTHER
+}
+
+// 订单状态
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  COMPLETED
+  CANCELLED
+}
+
+// 用户
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  phone     String?  @unique
+  password  String
+  nickname  String
+  avatar    String?
+  role      Role     @default(BUYER)
+  is_active Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+  orders   Order[]   @relation("BuyerOrders")
+}
+
+// 产品
+model Product {
+  id           String          @id @default(uuid()) @db.Uuid
+  seller_id    String          @db.Uuid
+  seller       User            @relation(fields: [seller_id], references: [id])
+  title        String
+  description  String
+  category     ProductCategory
+  price        Decimal         @db.Decimal(10, 2)
+  unit         String
+  images       String[]
+  stock        Int?
+  origin       String?
+  is_published Boolean         @default(true)
+  view_count   Int             @default(0)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  orders Order[]
+}
+
+// 订单
+model Order {
+  id           String      @id @default(uuid()) @db.Uuid
+  buyer_id     String      @db.Uuid
+  buyer        User        @relation("BuyerOrders", fields: [buyer_id], references: [id])
+  product_id   String      @db.Uuid
+  product      Product     @relation(fields: [product_id], references: [id])
+  quantity     Int
+  total_amount Decimal     @db.Decimal(10, 2)
+  status       OrderStatus @default(PENDING)
+  buyer_remark String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
