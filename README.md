@@ -14,12 +14,12 @@
 
 ## 🛠 技术栈
 
-| 端 | 技术 |
-|---|---|
-| 前端 | unibest 模板（uniapp + Vue3 + TypeScript + Vite5 + UnoCSS + wot-ui） |
-| 后端 | Next.js 15（App Router）+ Prisma ORM |
-| 数据库 | PostgreSQL |
-| 包管理 | pnpm（frontend 用 pnpm 10，backend 用 pnpm 11） |
+| 端     | 技术                                                                 |
+| ------ | -------------------------------------------------------------------- |
+| 前端   | unibest 模板（uniapp + Vue3 + TypeScript + Vite5 + UnoCSS + wot-ui） |
+| 后端   | Next.js 15（App Router）+ Prisma ORM                                 |
+| 数据库 | PostgreSQL                                                           |
+| 包管理 | pnpm（frontend 用 pnpm 10，backend 用 pnpm 11）                      |
 
 ## 📁 目录结构
 
@@ -77,8 +77,8 @@ pnpm dev:mp-weixin   # 编译产物在 dist/dev/mp-weixin
 
 ## 🔑 测试账号
 
-| 账号 | 密码 | 角色 |
-|---|---|---|
+| 账号            | 密码   | 角色                   |
+| --------------- | ------ | ---------------------- |
 | seller@test.com | 123456 | 测试卖家（可发布产品） |
 
 ## ⚠️ 注意事项
