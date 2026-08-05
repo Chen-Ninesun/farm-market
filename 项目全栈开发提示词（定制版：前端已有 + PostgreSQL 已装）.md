@@ -220,6 +220,7 @@ pnpm dev:mp-weixin  # 微信小程序调试
 > - ⏸️ **待办（可选）**：~~① 微信小程序端 `pnpm dev:mp-weixin` 联调~~；② 上传图片相对路径在小程序端由 `resolveAssetUrl` 拼完整域名。
 > - ✅ **小程序端联调**：进行中 ✅（2026-08-04 晚）：`pnpm dev:mp-weixin` 编译通过（产物 dist/dev/mp-weixin，watch 模式）→ 微信开发者工具打开成功（AppID 已配置为用户真实 AppID `wxbf576117234a6234`，env/.env 已加 `WECHAT_DEVTOOLS_CLI_PATH`）→ 首页 3 条产品正常渲染、Console 无报错。待验证：登录/个人中心、发布（图片上传）、详情页。
 > - ✅ **复用提示词文档**：已生成 ✅（2026-08-04 晚）：根目录新增「微信小程序从0到1开发提示词.md」，沉淀完整流程（unibest 创建 → 后端搭建 → H5 联调 → 小程序联调）+ 13 项踩坑清单与规避方案 + 检查清单 + AI 执行规范，新项目可直接复用跑通。
+> - ✅ **刘海屏/安全区全局适配**：已完成 ✅（2026-08-04）：新增需求。`.pt-safe`/`.pb-safe`/`.p-safe` 工具类移至 `src/style/index.scss` 用原生 CSS 多声明 fallback 实现（小程序 `--status-bar-height` → iOS11.0 `constant()` → iOS11.2+ `env()`）；⚠️ 坑：UnoCSS rules 的数组值会合并成逗号列表（`padding-top: a,b,c` 无效声明），不能在 uno.config.ts 里做 fallback；首页搜索栏 `pt-safe`（自定义导航栏）、tabbar `pb-safe`（底部圆角），其余页面 `pb-10`（40px）已覆盖安全区 34px。
 
 **第一步**：生成 `backend` 目录下的所有配置文件（package.json、tsconfig.json、next.config.js、.env）✅ 已完成
 

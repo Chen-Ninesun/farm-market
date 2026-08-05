@@ -11,6 +11,20 @@ defineOptions({
 })
 // #endif
 
+// 底部安全区高度（iPhone 底部圆角/Home 指示条）。
+// 用 getSystemInfoSync 动态获取（开发者工具模拟器与真机均准确），
+// 不依赖 CSS env()/constant()（模拟器不模拟 safe-area，返回 0 会导致 tabbar 贴底）
+const safeBottom = ref(0)
+try {
+  const sys = uni.getSystemInfoSync()
+  const safeBottomFromApi = Math.max(0, (sys.screenHeight ?? 0) - (sys.safeArea?.bottom ?? sys.screenHeight ?? 0))
+  // 兜底：iOS 且屏幕高度 >= 812（iPhone X 及之后）但 API 未返回安全区时，按 34px 底部安全区处理
+  const isIosNotchFallback = sys.platform === 'ios' && (sys.screenHeight ?? 0) >= 812 && safeBottomFromApi === 0
+  safeBottom.value = safeBottomFromApi || (isIosNotchFallback ? 34 : 0)
+  console.log('[tabbar] screenHeight =', sys.screenHeight, 'safeArea =', JSON.stringify(sys.safeArea), '=> safeBottom =', safeBottom.value)
+}
+catch { /* 兜底 0 */ }
+
 /**
  * 中间的鼓包tabbarItem的点击事件
  */
@@ -96,7 +110,7 @@ function getColorByIndex(index: number) {
 </script>
 
 <template>
-  <view v-if="customTabbarEnable" class="h-50px pb-safe">
+  <view v-if="customTabbarEnable" class="h-50px" :style="{ height: `calc(50px + ${safeBottom}px)` }">
     <view class="border-and-fixed bg-white" @touchmove.stop.prevent>
       <view class="h-50px flex items-center">
         <view
@@ -115,7 +129,7 @@ function getColorByIndex(index: number) {
         </view>
       </view>
 
-      <view class="pb-safe" />
+      <view :style="{ height: `${safeBottom}px` }" />
     </view>
   </view>
 </template>

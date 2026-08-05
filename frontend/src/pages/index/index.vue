@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CATEGORY_OPTIONS, categoryLabel, getProductList } from '@/api/product'
-import type { IProduct } from '@/api/product'
+import type { IProduct, ProductCategory } from '@/api/product'
 import { resolveAssetUrl } from '@/utils/request'
 
 defineOptions({
@@ -18,12 +18,21 @@ definePage({
 })
 
 const keyword = ref('')
-const activeCategory = ref('')
+const activeCategory = ref<ProductCategory | ''>('')
 const list = ref<IProduct[]>([])
 const page = ref(1)
 const total = ref(0)
 const loading = ref(false)
 const finished = ref(false)
+
+// 顶部安全区高度（自定义导航栏需避开状态栏/刘海）。
+// 用 getSystemInfoSync 动态获取（开发者工具模拟器与真机均准确），
+// 不依赖 CSS env()/var(--status-bar-height)（模拟器可能不模拟导致搜索框被刘海遮挡）
+const statusBarHeight = ref(0)
+try {
+  statusBarHeight.value = uni.getSystemInfoSync().statusBarHeight || 0
+}
+catch { /* 兜底 0 */ }
 
 async function fetchList(reset = false) {
   if (loading.value) {
@@ -70,7 +79,7 @@ function onSearch() {
   fetchList(true)
 }
 
-function selectCategory(cat: string) {
+function selectCategory(cat: ProductCategory | '') {
   activeCategory.value = cat
   fetchList(true)
 }
@@ -87,7 +96,7 @@ function goListPage() {
 <template>
   <view class="flex min-h-screen flex-col bg-[#f7f8fa]">
     <!-- 顶部搜索 -->
-    <view class="bg-white px-4 pb-3 pt-safe">
+    <view class="bg-white px-4 pb-3" :style="{ paddingTop: `${statusBarHeight}px` }">
       <wd-search
         v-model="keyword"
         placeholder="搜索农家好物"

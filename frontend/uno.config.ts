@@ -81,15 +81,9 @@ export default defineConfig({
     'i-carbon-menu',
   ],
   rules: [
-    [
-      'p-safe',
-      {
-        padding:
-          'env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)',
-      },
-    ],
-    ['pt-safe', { 'padding-top': 'env(safe-area-inset-top)' }],
-    ['pb-safe', { 'padding-bottom': 'env(safe-area-inset-bottom)' }],
+    // 安全区适配类（pt-safe/pb-safe/p-safe）已移至 src/style/index.scss 定义：
+    // UnoCSS 的数组值会合并成逗号列表（padding-top: a,b,c 为无效声明），
+    // 无法生成 iOS 需要的 constant/env 多声明 fallback，故用原生 CSS 实现
   ],
   theme: {
     colors: {
